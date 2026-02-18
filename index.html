@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lost & Found System · Dashboard</title>
+
+ <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" href="download-Photoroom.png" sizes="96x96" />
+    <link rel="icon" type="image/png" sizes="32x32" href="download-Photoroom.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="download-Photoroom.png">
+    <link rel="icon" href="download-Photoroom.png" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/download-Photoroom.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="download-Photoroom.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="download-Photoroom.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="download-Photoroom.png">
+<link rel="icon" type="school logo-Photoroom" href="download-Photoroom.png">
+<style>
+
+:root {
+    --primary: #06cb1d;
+    --primary-dark: #06cb1d;
+    --secondary: #34d399;
+    --success: #34d399;
+    --danger: #ef476f;
+    --warning: #ffd166;
+    --light: #f8f9fa;
+    --dark: #212529;
+    --gray: #6c757d;
+    --gray-light: #e9ecef;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    --radius: 16px;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+    color: var(--dark);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+@media (max-width: 768px) { body { padding: 10px; } }
+
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--gray-light);
+}
+
+.section-header-icon {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.8rem;
+    box-shadow: 0 5px 15px rgba(6, 203, 29, 0.2);
+}
+
+.section-header-content { flex: 1; }
+.section-header-content h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 5px; }
+.section-header-content p { color: var(--gray); font-size: 0.95rem; }
+
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 20px 0 10px;
+    letter-spacing: -0.5px;
+}
+.subtitle { text-align: center; color: var(--gray); margin-bottom: 40px; font-size: 1.1rem; }
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 30px;
+}
+@media (max-width: 1200px) { .container { grid-template-columns: 1fr; } }
+
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+.dashboard-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: var(--transition);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+.dashboard-card:hover { transform: translateY(-4px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+.dashboard-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.8rem;
+}
+.dashboard-icon.lost { background: linear-gradient(135deg, #ef476f, #d43f65); }
+.dashboard-icon.found { background: linear-gradient(135deg, #34d399, #10b981); }
+.dashboard-icon.claimed { background: linear-gradient(135deg, #6c757d, #495057); }
+.dashboard-icon.contact { background: linear-gradient(135deg, #ffd166, #e6b422); }
+.dashboard-info { flex: 1; }
+.dashboard-info h4 { font-size: 0.9rem; color: var(--gray); margin-bottom: 5px; font-weight: 600; text-transform: uppercase; }
+.dashboard-info .number { font-size: 2.1rem; font-weight: 700; color: var(--dark); line-height: 1.2; }
+@media (max-width: 768px) {
+    .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 30px;
+    transition: var(--transition);
+}
+.card:hover { box-shadow: 0 15px 40px rgba(0,0,0,0.12); }
+
+
+.form-container { position: sticky; top: 30px; }
+.form-group { margin-bottom: 20px; }
+label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--dark); font-size: 0.95rem; }
+input, textarea, select {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--gray-light);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: var(--transition);
+    background: white;
+}
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(16,185,129,0.1);
+}
+textarea { min-height: 120px; resize: vertical; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+.form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+.form-section {
+    background: var(--light);
+    padding: 20px;
+    border-radius: var(--radius);
+    margin-bottom: 25px;
+    border-left: 4px solid var(--primary);
+}
+.form-section h3 { color: var(--dark); margin-bottom: 15px; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+.required::after { content: " *"; color: var(--danger); }
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 24px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    margin-top: 10px;
+    width: 100%;
+}
+.btn-primary:hover { background: linear-gradient(135deg, var(--primary-dark), #651aa0); transform: translateY(-2px); box-shadow: 0 7px 20px rgba(67,97,238,0.3); }
+.btn-secondary { background: var(--gray-light); color: var(--dark); }
+.btn-success { background: var(--success); color: white; }
+.btn-danger { background: var(--danger); color: white; }
+.btn-info { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; }
+.btn-sm { padding: 8px 16px; font-size: 0.9rem; }
+.btn-icon { font-size: 1.2rem; }
+
+#message {
+    padding: 14px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 500;
+    display: none;
+    animation: fadeIn 0.5s;
+}
+.message-success { background-color: rgba(6,214,160,0.1); color: #057c5f; border-left: 4px solid var(--success); display: block !important; }
+.message-error { background-color: rgba(239,71,111,0.1); color: #c51a3d; border-left: 4px solid var(--danger); display: block !important; }
+.message-info { background-color: rgba(59,130,246,0.1); color: #1e40af; border-left: 4px solid #3b82f6; display: block !important; }
+
+
+.items-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.header-controls { display: flex; gap: 10px; align-items: center; }
+.items-count { background: var(--gray-light); color: var(--gray); padding: 6px 12px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; }
+
+.filter-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.filter-date {
+    padding: 8px 16px;
+    border: 2px solid var(--gray-light);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    background: white;
+}
+.filter-btn {
+    padding: 8px 16px;
+    border: 2px solid var(--gray-light);
+    background: white;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+.filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+#items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+}
+@media (max-width: 768px) { #items { grid-template-columns: 1fr; } }
+
+.item-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 25px;
+    box-shadow: var(--shadow);
+    border-left: 5px solid var(--primary);
+    position: relative;
+    overflow: hidden;
+    animation: slideUp 0.4s ease-out;
+}
+.item-card.Lost { border-left-color: var(--danger); }
+.item-card.Found { border-left-color: var(--success); }
+.item-card.claimed { opacity: 0.8; border-left-color: var(--gray); background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); }
+
+.item-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+.item-title { font-size: 1.3rem; font-weight: 700; color: var(--dark); margin-right: 10px; }
+
+.badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.badge.Lost { background-color: rgba(239,71,111,0.15); color: var(--danger); }
+.badge.Found { background-color: rgba(6,214,160,0.15); color: #057c5f; }
+.badge.claimed { background-color: rgba(108,117,125,0.15); color: var(--gray); }
+
+.item-description { color: var(--gray); margin-bottom: 15px; line-height: 1.7; }
+
+.item-details { background: var(--gray-light); padding: 15px; border-radius: 8px; margin-bottom: 15px; font-size: 0.9rem; }
+.detail-row { display: flex; margin-bottom: 8px; }
+.detail-label { font-weight: 600; min-width: 120px; color: var(--dark); }
+.detail-value { color: var(--gray); flex: 1; }
+
+.item-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid var(--gray-light); font-size: 0.85rem; color: var(--gray); }
+.item-date { display: flex; align-items: center; gap: 5px; }
+.item-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.empty-state { grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--gray); }
+.empty-icon { font-size: 4rem; margin-bottom: 20px; opacity: 0.3; }
+
+
+.claim-section {
+    background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+    border: 2px solid #ffd54f;
+    border-radius: var(--radius);
+    padding: 25px;
+    margin-top: 25px;
+}
+.claim-header-icon { background: #ff9800; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+.claim-header h3 { color: #e65100; font-size: 1.3rem; margin: 0; }
+
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.modal-content {
+    background: white;
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 550px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    animation: modalSlideIn 0.3s ease-out;
+}
+@keyframes modalSlideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+.modal-header {
+    padding: 20px 25px 15px;
+    border-bottom: 1px solid var(--gray-light);
+    background: linear-gradient(135deg, var(--primary), #10b981);
+    color: white;
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+.modal-header h3 { color: white; display: flex; align-items: center; gap: 10px; }
+.modal-body { padding: 25px; }
+.modal-footer {
+    padding: 20px 25px;
+    border-top: 1px solid var(--gray-light);
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    background: #f8f9fa;
+    border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.simple-form-group { margin-bottom: 20px; }
+.simple-form-group label { display: block; margin-bottom: 8px; font-weight: 600; }
+.simple-form-group label .required-star { color: var(--danger); }
+.simple-form-group input, .simple-form-group select {
+    width: 100%; padding: 12px 15px; border: 2px solid var(--gray-light); border-radius: 8px;
+}
+.simple-form-group .field-note { font-size: 0.85rem; color: var(--gray); margin-top: 5px; }
+
+.quick-info-box {
+    background: rgba(6,203,29,0.08); border-radius: 8px; padding: 15px; margin-top: 15px;
+    border-left: 4px solid var(--primary); font-size: 0.9rem; color: var(--gray);
+}
+
+/* ===== LOADER, ANIMATIONS ===== */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.loader { display: none; text-align: center; padding: 30px; }
+.loader.active { display: block; }
+.spinner { width: 40px; height: 40px; border: 4px solid var(--gray-light); border-top: 4px solid var(--primary); border-radius: 50%; margin: 0 auto 15px; animation: spin 1s linear infinite; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+footer { text-align: center; margin-top: 50px; color: var(--gray); padding: 20px; }
+</style>
+
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<!-- Material Icons -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<h1>Lost & Found System</h1>
+<p class="subtitle">Report lost items or submit found items to help reconnect them with their owners</p>
+
+<!-- DASHBOARD -->
+<div style="max-width:1400px; margin:0 auto 20px auto;">
+    <div class="dashboard-grid" id="dashboardStats">
+        <div class="dashboard-card"><div class="dashboard-icon lost"><span class="material-icons-round">report</span></div><div class="dashboard-info"><h4>LOST ITEMS</h4><div><span class="number" id="statLost">0</span></div></div></div>
+        <div class="dashboard-card"><div class="dashboard-icon found"><span class="material-icons-round">search</span></div><div class="dashboard-info"><h4>FOUND ITEMS</h4><div><span class="number" id="statFound">0</span></div></div></div>
+        <div class="dashboard-card"><div class="dashboard-icon claimed"><span class="material-icons-round">verified</span></div><div class="dashboard-info"><h4>CLAIMED</h4><div><span class="number" id="statClaimed">0</span></div></div></div>
+        <div class="dashboard-card"><div class="dashboard-icon contact"><span class="material-icons-round">contact_phone</span></div><div class="dashboard-info"><h4>CONTACTS SHARED</h4><div><span class="number" id="statContacts">0</span></div></div></div>
+    </div>
+</div>
+
+<div class="container">
+<!-- ===== FORM SECTION ===== -->
+<div class="form-container">
+    <div class="card">
+        <div class="section-header">
+            <div class="section-header-icon"><span class="material-icons-round">add_circle</span></div>
+            <div class="section-header-content"><h2>Report an Item</h2><p>Fill out the form to report lost or found items</p></div>
+        </div>
+        <div id="message"></div>
+
+        <div class="form-section">
+            <h3><span class="material-icons-round">category</span> Item Information</h3>
+            <div class="form-group">
+                <label for="title" class="required">Item Name</label>
+                <input id="title" placeholder="e.g., Black Wallet, iPhone 12, Keys" required>
+                <div style="font-size:0.85rem; color:var(--gray); margin-top:5px;">Enter the name of the lost or found item</div>
+            </div>
+            <div class="form-group">
+                <label for="description" class="required">Description</label>
+                <textarea id="description" placeholder="Provide detailed description including brand, color, unique features, etc." required></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label for="location" class="optional">Location</label><input id="location" placeholder="e.g., Library 2nd Floor (Optional)"></div>
+                <div class="form-group"><label for="type" class="required">Item Status</label>
+                    <select id="type"><option value="Lost">🚨 Lost Item</option><option value="Found">🔍 Found Item</option></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3><span class="material-icons-round">person</span> Reporter Information</h3>
+            <div class="form-group"><label for="reporterName" class="optional">Your Name</label><input id="reporterName" placeholder="Enter your full name (Optional)"></div>
+            <div class="form-row">
+                <div class="form-group"><label for="userType" class="optional">User Type</label>
+                    <select id="userType"><option value="">Select User Type (Optional)</option><option value="Student">🎓 Student</option><option value="Visitor">👤 Visitor</option><option value="Employee">👔 Employee</option></select>
+                </div>
+                <div class="form-group"><label for="contactNumber" class="optional">Contact Number</label><input id="contactNumber" placeholder="09123456789 (Optional)"></div>
+            </div>
+            <div id="studentInfo" style="display:none; margin-top:20px; padding-top:20px; border-top:2px dashed var(--gray-light);">
+                <h4 style="color:var(--dark); margin-bottom:15px;">📚 Student Information</h4>
+                <div class="form-row-3">
+                    <div class="form-group"><label for="studentId" class="optional">Student ID</label><input id="studentId" placeholder="e.g., 2023-00123"></div>
+                    <div class="form-group"><label for="course" class="optional">Course</label>
+                        <select id="course"><option value="">Select Course (Optional)</option>
+                            <option value="BS Accountancy">BS Accountancy</option><option value="BS Entrepreneurship">BS Entrepreneurship</option>
+                            <option value="BS Tourism Management">BS Tourism Management</option><option value="Associate Computer Technology">Associate Computer Technology</option>
+                            <option value="BS Computer Science">BS Computer Science</option><option value="BS Information Systems">BS Information Systems</option>
+                            <option value="BI Information Science">BI Information Science</option><option value="B Physical Education">B Physical Education</option>
+                            <option value="BT Teacher Education">BT Teacher Education</option><option value="BA English Language Studies">BA English Language Studies</option>
+                            <option value="B Performing Arts">B Performing Arts</option><option value="BS Psychology">BS Psychology</option>
+                            <option value="BT Vocational Teacher Education">BT Vocational Teacher Education</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="section" class="optional">Section</label><input id="section" placeholder="e.g., 3A, 4B, 2C"></div>
+                </div>
+            </div>
+            <div id="employeeInfo" style="display:none; margin-top:20px; padding-top:20px; border-top:2px dashed var(--gray-light);">
+                <h4 style="color:var(--dark); margin-bottom:15px;">👔 Employee Information</h4>
+                <div class="form-group"><label for="employeeId" class="optional">Employee ID</label><input id="employeeId" placeholder="e.g., EMP-00123"></div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3><span class="material-icons-round">schedule</span> Incident Details</h3>
+            <div class="form-row-3">
+                <div class="form-group"><label for="date" class="optional">Date</label><input type="date" id="date" value=""></div>
+                <div class="form-group"><label for="time" class="optional">Time</label><input type="time" id="time" value=""></div>
+                <div class="form-group"><div style="font-size:0.85rem; color:var(--gray); padding:14px 0;">All fields are optional</div></div>
+            </div>
+        </div>
+
+        <button id="addBtn" class="btn btn-primary"><span class="material-icons-round btn-icon">add</span><span>Report Item</span></button>
+        <div style="margin-top:20px; text-align:center;">
+            <button id="viewSheetsBtn" class="btn btn-info" style="width:100%;"><span class="material-icons-round btn-icon">open_in_new</span><span>View All Items in Google Sheets</span></button>
+        </div>
+
+        <div class="claim-section">
+            <div class="claim-header"><div class="claim-header-icon"><span class="material-icons-round">verified_user</span></div><h3>How to Claim an Item</h3></div>
+            <div class="claim-info"><p>Found your lost item? Follow these simple steps to claim it:</p></div>
+            <div class="claim-steps"><h4>Claim Process:</h4>
+                <div class="step"><div class="step-number">1</div><div class="step-content"><h5>Identify Your Item</h5><p>Find your item in the "Recent Items" section.</p></div></div>
+                <div class="step"><div class="step-number">2</div><div class="step-content"><h5>Click "Claim Item"</h5><p>Click the green "Claim Item" button on your item card.</p></div></div>
+                <div class="step"><div class="step-number">3</div><div class="step-content"><h5>Provide Information</h5><p>Enter your Name, Course, and Section for verification.</p></div></div>
+                <div class="step"><div class="step-number">4</div><div class="step-content"><h5>Item Collection</h5><p>The reporter will contact you to arrange item collection.</p></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="items-container">
+    <div class="card">
+        <div class="section-header">
+            <div class="section-header-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);"><span class="material-icons-round">list_alt</span></div>
+            <div class="section-header-content"><h2>Recent Items</h2><p>Browse all reported lost and found items</p></div>
+        </div>
+        <div class="items-header">
+            <div class="header-controls"><div class="items-count"><span id="count">0</span> items</div></div>
+        </div>
+        <div class="filter-container">
+            <input type="date" class="filter-date" id="filterDate" placeholder="Filter by date">
+            <button class="filter-btn active" data-filter="all">All Items</button>
+            <button class="filter-btn" data-filter="Lost">Lost Items</button>
+            <button class="filter-btn" data-filter="Found">Found Items</button>
+            <button class="filter-btn" data-filter="unclaimed">Unclaimed</button>
+            <button class="filter-btn" data-filter="claimed">Claimed</button>
+        </div>
+        <div class="loader" id="loader"><div class="spinner"></div><p>Loading items...</p></div>
+        <div id="items"></div>
+    </div>
+</div>
+</div>
+
+
+<div id="claimModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header"><h3><span class="material-icons-round">check_circle</span> Claim This Item</h3></div>
+        <div class="modal-body">
+            <div id="claimMessage" style="display:none; margin-bottom:15px; padding:10px; border-radius:8px;"></div>
+            <div class="simple-form-group"><label for="claimerName">Your Name <span class="required-star">*</span></label><input type="text" id="claimerName" placeholder="Enter your full name" required></div>
+            <div class="simple-form-group"><label for="verificationCourse">Course <span class="required-star">*</span></label>
+                <select id="verificationCourse" required><option value="">Select your course</option>
+                    <option value="BS Accountancy">BS Accountancy</option><option value="BS Entrepreneurship">BS Entrepreneurship</option>
+                    <option value="BS Tourism Management">BS Tourism Management</option><option value="Associate Computer Technology">Associate Computer Technology</option>
+                    <option value="BS Computer Science">BS Computer Science</option><option value="BS Information Systems">BS Information Systems</option>
+                    <option value="BI Information Science">BI Information Science</option><option value="B Physical Education">B Physical Education</option>
+                    <option value="BT Teacher Education">BT Teacher Education</option><option value="BA English Language Studies">BA English Language Studies</option>
+                    <option value="B Performing Arts">B Performing Arts</option><option value="BS Psychology">BS Psychology</option>
+                    <option value="BT Vocational Teacher Education">BT Vocational Teacher Education</option>
+                </select>
+            </div>
+            <div class="simple-form-group"><label for="verificationSection">Section <span class="required-star">*</span></label><input type="text" id="verificationSection" placeholder="e.g., 3A, 4B, 2C" required></div>
+            <div class="quick-info-box"><p><strong>Note:</strong> Only Name, Course, and Section are required to claim items.</p></div>
+        </div>
+        <div class="modal-footer">
+            <button id="cancelClaim" class="btn btn-secondary"><span class="material-icons-round">close</span> Cancel</button>
+            <button id="confirmClaim" class="btn btn-success"><span class="material-icons-round">check</span> Claim Item</button>
+        </div>
+    </div>
+</div>
+
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);"><h3><span class="material-icons-round">edit</span> Edit Item</h3></div>
+        <div class="modal-body">
+            <div id="editMessage" style="display:none; margin-bottom:15px; padding:10px; border-radius:8px;"></div>
+            <input type="hidden" id="editItemId">
+            <div class="simple-form-group"><label for="editTitle">Item Name <span class="required-star">*</span></label><input type="text" id="editTitle" placeholder="Item name" required></div>
+            <div class="simple-form-group"><label for="editDescription">Description <span class="required-star">*</span></label><textarea id="editDescription" placeholder="Item description" rows="3" required></textarea></div>
+            <div class="simple-form-group"><label for="editLocation">Location</label><input type="text" id="editLocation" placeholder="Location (optional)"></div>
+            <div class="simple-form-group"><label for="editType">Item Status</label>
+                <select id="editType"><option value="Lost">🚨 Lost Item</option><option value="Found">🔍 Found Item</option></select>
+            </div>
+            <div class="simple-form-group"><label for="editContactNumber">Contact Number</label><input type="text" id="editContactNumber" placeholder="Contact number (optional)"></div>
+            <div class="simple-form-group"><label for="editReporterName">Reporter Name</label><input type="text" id="editReporterName" placeholder="Reporter name (optional)"></div>
+            <div class="simple-form-group"><label for="editUserType">User Type</label>
+                <select id="editUserType"><option value="">Select user type (optional)</option><option value="Student">🎓 Student</option><option value="Employee">👔 Employee</option></select>
+            </div>
+            <div id="editStudentFields" style="display:none; margin-top:10px; padding:15px; background:var(--light); border-radius:8px;">
+                <div class="simple-form-group"><label for="editStudentId">Student ID</label><input type="text" id="editStudentId" placeholder="Student ID"></div>
+                <div class="simple-form-group"><label for="editCourse">Course</label>
+                    <select id="editCourse"><option value="">Select Course</option>
+                        <option value="BS Accountancy">BS Accountancy</option><option value="BS Entrepreneurship">BS Entrepreneurship</option>
+                        <option value="BS Tourism Management">BS Tourism Management</option><option value="Associate Computer Technology">Associate Computer Technology</option>
+                        <option value="BS Computer Science">BS Computer Science</option><option value="BS Information Systems">BS Information Systems</option>
+                        <option value="BI Information Science">BI Information Science</option><option value="B Physical Education">B Physical Education</option>
+                        <option value="BT Teacher Education">BT Teacher Education</option><option value="BA English Language Studies">BA English Language Studies</option>
+                        <option value="B Performing Arts">B Performing Arts</option><option value="BS Psychology">BS Psychology</option>
+                        <option value="BT Vocational Teacher Education">BT Vocational Teacher Education</option>
+                    </select>
+                </div>
+                <div class="simple-form-group"><label for="editSection">Section</label><input type="text" id="editSection" placeholder="Section"></div>
+            </div>
+            <div id="editEmployeeFields" style="display:none; margin-top:10px; padding:15px; background:var(--light); border-radius:8px;">
+                <div class="simple-form-group"><label for="editEmployeeId">Employee ID</label><input type="text" id="editEmployeeId" placeholder="Employee ID"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="cancelEdit" class="btn btn-secondary"><span class="material-icons-round">close</span> Cancel</button>
+            <button id="saveEdit" class="btn btn-primary"><span class="material-icons-round">save</span> Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<footer></footer>
+
+<script>
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBhozFiaXH6Jj2R0teZLjQqzoVbFtbXJj4",
+    authDomain: "lostandfound-70361.firebaseapp.com",
+    projectId: "lostandfound-70361",
+    storageBucket: "lostandfound-70361.firebasestorage.app",
+    messagingSenderId: "722533095946",
+    appId: "1:722533095946:web:85fde4660b603df7169df3"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/1K5jM2UtbNByoWtsOTHjZefqlWZX-rT-BbrVu_eYJo0Y/edit?gid=2107436762#gid=2107436762';
+
+const titleInput = document.getElementById("title");
+const descriptionInput = document.getElementById("description");
+const locationInput = document.getElementById("location");
+const reporterNameInput = document.getElementById("reporterName");
+const userTypeInput = document.getElementById("userType");
+const studentIdInput = document.getElementById("studentId");
+const employeeIdInput = document.getElementById("employeeId");
+const contactNumberInput = document.getElementById("contactNumber");
+const courseInput = document.getElementById("course");
+const sectionInput = document.getElementById("section");
+const typeSelect = document.getElementById("type");
+const dateInput = document.getElementById("date");
+const timeInput = document.getElementById("time");
+const addBtn = document.getElementById("addBtn");
+const viewSheetsBtn = document.getElementById("viewSheetsBtn");
+const itemsDiv = document.getElementById("items");
+const messageDiv = document.getElementById("message");
+const loader = document.getElementById("loader");
+const countSpan = document.getElementById("count");
+const filterBtns = document.querySelectorAll('.filter-btn');
+const filterDateInput = document.getElementById('filterDate');
+
+const claimModal = document.getElementById('claimModal');
+const claimerNameInput = document.getElementById('claimerName');
+const verificationCourse = document.getElementById('verificationCourse');
+const verificationSection = document.getElementById('verificationSection');
+const cancelClaimBtn = document.getElementById('cancelClaim');
+const confirmClaimBtn = document.getElementById('confirmClaim');
+const claimMessage = document.getElementById('claimMessage');
+
+const editModal = document.getElementById('editModal');
+const editItemId = document.getElementById('editItemId');
+const editTitle = document.getElementById('editTitle');
+const editDescription = document.getElementById('editDescription');
+const editLocation = document.getElementById('editLocation');
+const editType = document.getElementById('editType');
+const editContactNumber = document.getElementById('editContactNumber');
+const editReporterName = document.getElementById('editReporterName');
+const editUserType = document.getElementById('editUserType');
+const editStudentFields = document.getElementById('editStudentFields');
+const editStudentId = document.getElementById('editStudentId');
+const editCourse = document.getElementById('editCourse');
+const editSection = document.getElementById('editSection');
+const editEmployeeFields = document.getElementById('editEmployeeFields');
+const editEmployeeId = document.getElementById('editEmployeeId');
+const cancelEdit = document.getElementById('cancelEdit');
+const saveEdit = document.getElementById('saveEdit');
+const editMessage = document.getElementById('editMessage');
+
+const statLost = document.getElementById('statLost');
+const statFound = document.getElementById('statFound');
+const statClaimed = document.getElementById('statClaimed');
+const statContacts = document.getElementById('statContacts');
+
+
+let allItems = [];
+let currentFilter = 'all';
+let currentClaimItemId = null;
+let currentClaimItemType = null;
+
+
+const today = new Date();
+dateInput.value = today.toISOString().split('T')[0];
+timeInput.value = today.toTimeString().slice(0, 5);
+
+function showMessage(text, type) {
+    messageDiv.textContent = text; messageDiv.className = ''; messageDiv.classList.add(`message-${type}`); messageDiv.style.display = 'block';
+    setTimeout(() => { messageDiv.style.opacity = '0'; setTimeout(() => { messageDiv.className = ''; messageDiv.style.opacity = '1'; messageDiv.style.display = 'none'; }, 500); }, 5000);
+}
+function showClaimMessage(text, type) { claimMessage.textContent = text; claimMessage.className = ''; claimMessage.classList.add(`message-${type}`); claimMessage.style.display = 'block'; }
+function showEditMessage(text, type) { editMessage.textContent = text; editMessage.className = ''; editMessage.classList.add(`message-${type}`); editMessage.style.display = 'block'; }
+
+function formatDate(timestamp) {
+    if (!timestamp) return "Just now";
+    const date = timestamp.toDate(); const now = new Date(); const diffMs = now - date; const diffMins = Math.floor(diffMs / 60000);
+    if (diffMins < 1) return "Just now"; if (diffMins < 60) return `${diffMins} min ago`;
+    const diffHours = Math.floor(diffMs / 3600000); if (diffHours < 24) return `${diffHours} hr ago`;
+    const diffDays = Math.floor(diffMs / 86400000); if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: diffDays > 365 ? 'numeric' : undefined });
+}
+function formatDateTimeForDisplay(timestamp) {
+    if (!timestamp) return "Not specified"; const date = timestamp.toDate(); return date.toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+
+userTypeInput.addEventListener('change', function() {
+    studentInfo.style.display = 'none'; employeeInfo.style.display = 'none';
+    if (this.value === 'Student') studentInfo.style.display = 'block';
+    else if (this.value === 'Employee') employeeInfo.style.display = 'block';
+});
+
+
+function updateDashboard(itemsArray) {
+    let lost = 0, found = 0, claimed = 0, contacts = 0;
+    itemsArray.forEach(({item}) => {
+        if (item.type === 'Lost' && item.claimed !== true) lost++;
+        if (item.type === 'Found' && item.claimed !== true) found++;
+        if (item.claimed === true) claimed++;
+        if (item.contactNumber && item.contactNumber.trim() !== '') contacts++;
+    });
+    statLost.innerText = lost; statFound.innerText = found; statClaimed.innerText = claimed; statContacts.innerText = contacts;
+}
+
+
+addBtn.addEventListener("click", async () => {
+    if (!titleInput.value.trim()) { showMessage("Please enter item name!", "error"); return; }
+    if (!descriptionInput.value.trim()) { showMessage("Please enter item description!", "error"); return; }
+    try {
+        addBtn.disabled = true; addBtn.innerHTML = '<span class="material-icons-round btn-icon">hourglass_top</span><span>Reporting Item...</span>';
+        const itemData = {
+            title: titleInput.value.trim(), description: descriptionInput.value.trim(), type: typeSelect.value, claimed: false,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        if (locationInput.value.trim()) itemData.location = locationInput.value.trim();
+        if (reporterNameInput.value.trim()) itemData.reporterName = reporterNameInput.value.trim();
+        if (userTypeInput.value) itemData.userType = userTypeInput.value;
+        if (contactNumberInput.value.trim()) itemData.contactNumber = contactNumberInput.value.trim();
+        if (dateInput.value && timeInput.value) {
+            const incidentDateTime = new Date(`${dateInput.value}T${timeInput.value}`);
+            itemData.incidentDateTime = firebase.firestore.Timestamp.fromDate(incidentDateTime);
+        }
+        if (userTypeInput.value === 'Student') {
+            if (studentIdInput.value.trim()) itemData.studentId = studentIdInput.value.trim();
+            if (courseInput.value) itemData.course = courseInput.value;
+            if (sectionInput.value.trim()) itemData.section = sectionInput.value.trim();
+        }
+        if (userTypeInput.value === 'Employee' && employeeIdInput.value.trim()) itemData.employeeId = employeeIdInput.value.trim();
+
+        await db.collection("items").add(itemData);
+        showMessage(`✅ ${typeSelect.value} item reported successfully!`, "success");
+      
+        titleInput.value = ""; descriptionInput.value = ""; locationInput.value = ""; reporterNameInput.value = ""; userTypeInput.value = "";
+        studentIdInput.value = ""; employeeIdInput.value = ""; contactNumberInput.value = ""; courseInput.value = ""; sectionInput.value = "";
+        dateInput.value = today.toISOString().split('T')[0]; timeInput.value = today.toTimeString().slice(0, 5);
+        studentInfo.style.display = 'none'; employeeInfo.style.display = 'none'; titleInput.focus();
+    } catch (error) { console.error(error); showMessage("Error reporting item: " + error.message, "error"); }
+    finally { addBtn.disabled = false; addBtn.innerHTML = '<span class="material-icons-round btn-icon">add</span><span>Report Item</span>'; }
+});
+
+
+function openClaimModal(itemId, itemType) {
+    currentClaimItemId = itemId; currentClaimItemType = itemType;
+    claimerNameInput.value = ''; verificationCourse.value = ''; verificationSection.value = ''; claimMessage.style.display = 'none';
+    document.querySelector('.modal-header h3').innerHTML = `<span class="material-icons-round">check_circle</span> Claim ${itemType} Item`;
+    claimModal.style.display = 'flex'; claimerNameInput.focus();
+}
+function closeClaimModal() { claimModal.style.display = 'none'; currentClaimItemId = null; }
+cancelClaimBtn.addEventListener('click', closeClaimModal);
+claimModal.addEventListener('click', (e) => { if (e.target === claimModal) closeClaimModal(); });
+
+confirmClaimBtn.addEventListener('click', async () => {
+    if (!claimerNameInput.value.trim()) { showClaimMessage("Please enter your name!", "error"); return; }
+    if (!verificationCourse.value) { showClaimMessage("Please select your Course!", "error"); return; }
+    if (!verificationSection.value.trim()) { showClaimMessage("Please enter your Section!", "error"); return; }
+    try {
+        confirmClaimBtn.disabled = true; confirmClaimBtn.innerHTML = '<span class="material-icons-round">hourglass_top</span> Claiming...';
+        await db.collection("items").doc(currentClaimItemId).update({
+            claimed: true, claimedBy: claimerNameInput.value.trim(), claimedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            claimerCourse: verificationCourse.value, claimerSection: verificationSection.value.trim(), claimerVerifiedAt: new Date().toISOString()
+        });
+        showMessage(`✅ ${currentClaimItemType} item claimed by ${claimerNameInput.value.trim()}!`, "success");
+        closeClaimModal();
+    } catch (error) { showClaimMessage("Error claiming item: " + error.message, "error"); console.error(error); }
+    finally { confirmClaimBtn.disabled = false; confirmClaimBtn.innerHTML = '<span class="material-icons-round">check</span> Claim Item'; }
+});
+
+async function markAsUnclaimed(itemId) {
+    if (!confirm("Mark this item as unclaimed?")) return;
+    try {
+        await db.collection("items").doc(itemId).update({ claimed: false, claimedBy: null, claimedAt: null, claimerVerifiedAt: null, claimerCourse: firebase.firestore.FieldValue.delete(), claimerSection: firebase.firestore.FieldValue.delete() });
+        showMessage("✅ Item marked as unclaimed!", "success");
+    } catch (error) { showMessage("Error updating item: " + error.message, "error"); }
+}
+async function deleteItem(itemId) {
+    if (!confirm("Delete this item?")) return;
+    try { await db.collection("items").doc(itemId).delete(); showMessage("✅ Item deleted!", "success"); }
+    catch (error) { showMessage("Error deleting item: " + error.message, "error"); }
+}
+
+window.openEditModal = function(itemId, itemData) {
+  
+    editItemId.value = itemId;
+    editTitle.value = itemData.title || '';
+    editDescription.value = itemData.description || '';
+    editLocation.value = itemData.location || '';
+    editType.value = itemData.type || 'Lost';
+    editContactNumber.value = itemData.contactNumber || '';
+    editReporterName.value = itemData.reporterName || '';
+    editUserType.value = itemData.userType || '';
+    editStudentId.value = itemData.studentId || '';
+    editCourse.value = itemData.course || '';
+    editSection.value = itemData.section || '';
+    editEmployeeId.value = itemData.employeeId || '';
+
+
+    if (editUserType.value === 'Student') { editStudentFields.style.display = 'block'; editEmployeeFields.style.display = 'none'; }
+    else if (editUserType.value === 'Employee') { editStudentFields.style.display = 'none'; editEmployeeFields.style.display = 'block'; }
+    else { editStudentFields.style.display = 'none'; editEmployeeFields.style.display = 'none'; }
+
+    editMessage.style.display = 'none';
+    editModal.style.display = 'flex';
+};
+
+editUserType.addEventListener('change', function() {
+    if (this.value === 'Student') { editStudentFields.style.display = 'block'; editEmployeeFields.style.display = 'none'; }
+    else if (this.value === 'Employee') { editStudentFields.style.display = 'none'; editEmployeeFields.style.display = 'block'; }
+    else { editStudentFields.style.display = 'none'; editEmployeeFields.style.display = 'none'; }
+});
+
+function closeEditModal() { editModal.style.display = 'none'; }
+cancelEdit.addEventListener('click', closeEditModal);
+editModal.addEventListener('click', (e) => { if (e.target === editModal) closeEditModal(); });
+
+saveEdit.addEventListener('click', async () => {
+    if (!editTitle.value.trim()) { showEditMessage("Item name is required!", "error"); return; }
+    if (!editDescription.value.trim()) { showEditMessage("Description is required!", "error"); return; }
+    const id = editItemId.value;
+    try {
+        saveEdit.disabled = true; saveEdit.innerHTML = '<span class="material-icons-round">hourglass_top</span> Saving...';
+        const updatePayload = {
+            title: editTitle.value.trim(),
+            description: editDescription.value.trim(),
+            location: editLocation.value.trim() || null,
+            type: editType.value,
+            contactNumber: editContactNumber.value.trim() || null,
+            reporterName: editReporterName.value.trim() || null,
+            userType: editUserType.value || null
+        };
+    
+        if (editUserType.value === 'Student') {
+            updatePayload.studentId = editStudentId.value.trim() || null;
+            updatePayload.course = editCourse.value || null;
+            updatePayload.section = editSection.value.trim() || null;
+            updatePayload.employeeId = firebase.firestore.FieldValue.delete();
+        } else if (editUserType.value === 'Employee') {
+            updatePayload.employeeId = editEmployeeId.value.trim() || null;
+            updatePayload.studentId = firebase.firestore.FieldValue.delete();
+            updatePayload.course = firebase.firestore.FieldValue.delete();
+            updatePayload.section = firebase.firestore.FieldValue.delete();
+        } else {
+            updatePayload.studentId = firebase.firestore.FieldValue.delete();
+            updatePayload.course = firebase.firestore.FieldValue.delete();
+            updatePayload.section = firebase.firestore.FieldValue.delete();
+            updatePayload.employeeId = firebase.firestore.FieldValue.delete();
+        }
+        await db.collection("items").doc(id).update(updatePayload);
+        showMessage("✅ Item updated successfully!", "success");
+        closeEditModal();
+    } catch (error) { showEditMessage("Error updating: " + error.message, "error"); console.error(error); }
+    finally { saveEdit.disabled = false; saveEdit.innerHTML = '<span class="material-icons-round">save</span> Save Changes'; }
+});
+
+
+function filterItems(items, filter, selectedDate = null) {
+    let filtered = items;
+    if (filter === 'Lost') filtered = filtered.filter(d => d.item.type === 'Lost' && d.item.claimed !== true);
+    else if (filter === 'Found') filtered = filtered.filter(d => d.item.type === 'Found' && d.item.claimed !== true);
+    else if (filter === 'claimed') filtered = filtered.filter(d => d.item.claimed === true);
+    else if (filter === 'unclaimed') filtered = filtered.filter(d => d.item.claimed !== true);
+    if (selectedDate) filtered = filtered.filter(d => { if (d.item.incidentDateTime) { const dStr = d.item.incidentDateTime.toDate().toISOString().split('T')[0]; return dStr === selectedDate; } return false; });
+    return filtered;
+}
+
+filterBtns.forEach(btn => btn.addEventListener('click', function() {
+    filterBtns.forEach(b => b.classList.remove('active')); this.classList.add('active');
+    currentFilter = this.dataset.filter; renderItems(allItems);
+}));
+filterDateInput.addEventListener('change', () => renderItems(allItems));
+
+function renderItems(items) {
+    itemsDiv.innerHTML = "";
+    const selectedDate = filterDateInput.value;
+    const filteredItems = filterItems(items, currentFilter, selectedDate);
+    if (filteredItems.length === 0) {
+        itemsDiv.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div><h3>No items found</h3><p>Try changing your filter or add a new item</p></div>`;
+        countSpan.textContent = "0"; return;
+    }
+    countSpan.textContent = filteredItems.length;
+
+    filteredItems.forEach((itemData, index) => {
+        const { item, doc } = itemData;
+        const isClaimed = item.claimed === true;
+        const card = document.createElement("div");
+        card.classList.add("item-card", item.type);
+        if (isClaimed) card.classList.add("claimed");
+
+        const safeDisplay = (value, def = 'Not specified') => value || def;
+
+        let idDisplay = "";
+        if (item.userType === 'Student' && item.studentId) idDisplay = `<div class="detail-row"><span class="detail-label">Student ID:</span><span class="detail-value">${safeDisplay(item.studentId)}</span></div>`;
+        else if (item.userType === 'Employee' && item.employeeId) idDisplay = `<div class="detail-row"><span class="detail-label">Employee ID:</span><span class="detail-value">${safeDisplay(item.employeeId)}</span></div>`;
+
+        let courseSectionDisplay = "";
+        if (item.userType === 'Student') courseSectionDisplay = `<div class="detail-row"><span class="detail-label">Course:</span><span class="detail-value">${safeDisplay(item.course)}</span></div><div class="detail-row"><span class="detail-label">Section:</span><span class="detail-value">${safeDisplay(item.section)}</span></div>`;
+
+        let claimVerification = "";
+        if (isClaimed) {
+            claimVerification = `<div class="detail-row"><span class="detail-label">Status:</span><span class="detail-value">✅ Claimed by ${safeDisplay(item.claimedBy)}</span></div>`;
+            if (item.claimerCourse && item.claimerSection) claimVerification += `<div class="detail-row"><span class="detail-label">Claimer Course/Sec:</span><span class="detail-value">${item.claimerCourse} - ${item.claimerSection}</span></div>`;
+        }
+
+        let contactDisplay = (item.contactNumber && item.contactNumber.trim() !== '') ? `<div class="detail-row"><span class="detail-label">Contact:</span><span class="detail-value">${item.contactNumber}</span></div>` : '';
+
+        card.innerHTML = `
+            <div class="item-header">
+                <h3 class="item-title">${index+1}. ${safeDisplay(item.title)}</h3>
+                <div class="badge ${item.type} ${isClaimed ? 'claimed' : ''}">${isClaimed ? '✅ CLAIMED' : item.type}</div>
+            </div>
+            <p class="item-description">${safeDisplay(item.description)}</p>
+            <div class="item-details">
+                <div class="detail-row"><span class="detail-label">Location:</span><span class="detail-value">${safeDisplay(item.location)}</span></div>
+                <div class="detail-row"><span class="detail-label">Reporter:</span><span class="detail-value">${safeDisplay(item.reporterName, 'Anonymous')}</span></div>
+                ${contactDisplay}
+                ${idDisplay}
+                ${courseSectionDisplay}
+                <div class="detail-row"><span class="detail-label">Incident:</span><span class="detail-value">${item.incidentDateTime ? formatDateTimeForDisplay(item.incidentDateTime) : 'Not specified'}</span></div>
+                <div class="detail-row"><span class="detail-label">Status:</span><span class="detail-value">${isClaimed ? '✅ Claimed' : '⏳ Unclaimed'}</span></div>
+                ${claimVerification}
+            </div>
+            <div class="item-footer">
+                <div class="item-date"><span class="material-icons-round" style="font-size:16px;">schedule</span><span>Reported ${formatDate(item.createdAt)}</span></div>
+                <div class="item-actions">
+                    <!-- EDIT BUTTON added here -->
+                    <button class="btn btn-info btn-sm edit-item" data-id="${doc.id}" style="background: #3b82f6; color:white;">
+                        <span class="material-icons-round" style="font-size:16px;">edit</span> Edit
+                    </button>
+                    ${!isClaimed ? 
+                        `<button class="btn btn-success btn-sm mark-claimed" data-id="${doc.id}" data-type="${item.type}">
+                            <span class="material-icons-round" style="font-size:16px;">check</span> Claim
+                        </button>` : 
+                        `<button class="btn btn-secondary btn-sm mark-unclaimed" data-id="${doc.id}">
+                            <span class="material-icons-round" style="font-size:16px;">undo</span> Unclaim
+                        </button>`
+                    }
+                    <button class="btn btn-danger btn-sm delete-item" data-id="${doc.id}">
+                        <span class="material-icons-round" style="font-size:16px;">delete</span> Del
+                    </button>
+                </div>
+            </div>
+        `;
+        itemsDiv.appendChild(card);
+    });
+
+  
+    document.querySelectorAll('.mark-claimed').forEach(btn => btn.addEventListener('click', e => { const b = e.target.closest('button'); markAsClaimed(b.dataset.id, b.dataset.type); }));
+    document.querySelectorAll('.mark-unclaimed').forEach(btn => btn.addEventListener('click', e => { markAsUnclaimed(e.target.closest('button').dataset.id); }));
+    document.querySelectorAll('.delete-item').forEach(btn => btn.addEventListener('click', e => { deleteItem(e.target.closest('button').dataset.id); }));
+  
+    document.querySelectorAll('.edit-item').forEach(btn => {
+        btn.addEventListener('click', e => {
+            const id = e.target.closest('button').dataset.id;
+            const itemData = allItems.find(i => i.doc.id === id)?.item;
+            if (itemData) openEditModal(id, itemData);
+            else alert('Item data not found');
+        });
+    });
+}
+function markAsClaimed(itemId, itemType) { openClaimModal(itemId, itemType); }
+
+
+loader.classList.add('active');
+db.collection("items").orderBy("createdAt", "desc").onSnapshot(snapshot => {
+    loader.classList.remove('active');
+    allItems = [];
+    snapshot.forEach(doc => {
+        const itemData = doc.data();
+        if (!itemData.title) itemData.title = "Untitled";
+        if (!itemData.description) itemData.description = "No description";
+        if (!itemData.type) itemData.type = "Lost";
+        if (itemData.claimed === undefined) itemData.claimed = false;
+        allItems.push({ item: itemData, doc: doc });
+    });
+    renderItems(allItems);
+    updateDashboard(allItems);
+}, error => { console.error("Error loading items:", error); loader.classList.remove('active'); showMessage("Error loading items: " + error.message, "error"); });
+
+viewSheetsBtn.addEventListener("click", () => { window.open(GOOGLE_SHEETS_URL, '_blank'); showMessage("✅ Opening Google Sheets...", "success"); });
+
+titleInput.addEventListener("keypress", e => { if (e.key === "Enter") addBtn.click(); });
+titleInput.focus();
+console.log("Lost & Found with EDIT button on Recent Items");
+</script>
+</body>
+</html>
